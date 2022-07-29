@@ -165,16 +165,13 @@ public class MetroPresentationImplementation implements MetroPresentation {
 					} else {
 						//not enough balance in card, after journey
 						//alert user to update card balance
-						
+						System.out.println("You do not have enough balance in the card, please recharge");
 					}
 				} else {
 					//take the last transaction and update it
 					LocalDate currentDate = LocalDate.now();
 					LocalTime currentTime = LocalTime.now();
-					//update transaction
-					//set swipe_out_date = currentDate,
-					//swipe_out_time = currentTime
-					//where id = lastTransaction.getId();
+					
 					int transactionToUpdate = csi.getLastTransaction().getId();
 					TransactionServiceImplementation tsi = new TransactionServiceImplementation();
 					if(tsi.updateTransaction(transactionToUpdate, currentDate, currentTime)) {
@@ -188,7 +185,7 @@ public class MetroPresentationImplementation implements MetroPresentation {
 			case 2:
 				System.out.println("Add amount: ₹");
 				double incrementCardBalanceByAmount = sc.nextDouble();
-				if(csi.updateBalance(choice, incrementCardBalanceByAmount)) {
+				if(csi.updateBalance(card.getId(), incrementCardBalanceByAmount)) {
 					System.out.println("Card balance updated");
 				} else {
 					System.out.println("Couldn't update card balance");
@@ -196,7 +193,10 @@ public class MetroPresentationImplementation implements MetroPresentation {
 				
 				break;
 			case 3:
-				System.out.println("Card balance: " + csi.checkBalance(choice));
+				//ask user for email and password
+				//if authentication fails, alert user
+				
+				System.out.println("Card balance: " + csi.checkBalance(card.getId()));
 				break;
 			default:
 				System.exit(0);

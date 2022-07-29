@@ -16,6 +16,8 @@ public class CardServiceImplementation implements CardService {
 
 	@Override
 	public boolean updateBalance(int cardId, double amount) {
+		if(amount < 0) return false;
+		
 		return cdi.updateBalance(cardId, amount);
 	}
 
