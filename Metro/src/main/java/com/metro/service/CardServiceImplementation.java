@@ -1,6 +1,5 @@
 package com.metro.service;
 
-import com.metro.bean.Transaction;
 import com.metro.bean.User;
 import com.metro.persistence.CardDaoImplementation;
 import com.metro.persistence.UserDaoImplementation;
@@ -16,13 +15,12 @@ public class CardServiceImplementation implements CardService {
 
 	@Override
 	public boolean updateBalance(int cardId, double amount) {
+		if(amount < 0) return false;
+		
 		return cdi.updateBalance(cardId, amount);
 	}
 
-	@Override
-	public Transaction getLastTransaction() {
-		return cdi.getLastTransaction();
-	}
+	
 
 	@Override
 	public boolean generateCard(String email, String password, long balance) {

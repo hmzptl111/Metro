@@ -2,6 +2,7 @@ package com.metro.persistence;
 
 import com.metro.bean.Transaction;
 
+
 public interface TransactionDao {
 
 
@@ -10,6 +11,6 @@ public interface TransactionDao {
 	public Transaction getTransactionBytransactionID(int tid);
 
 	public boolean updateTransaction(Transaction t);
+	public Transaction getLastTransaction();
 
-	Transaction getTransactionByCardID(int cardid);
 }

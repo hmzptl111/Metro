@@ -1,12 +1,10 @@
 package com.metro.presentation;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Scanner;
 
 import com.metro.bean.Card;
-import com.metro.bean.Metro;
+import com.metro.bean.MetroStation;
 import com.metro.service.CardService;
 import com.metro.service.CardServiceImplementation;
 import com.metro.service.MetroServiceImplementation;
@@ -24,48 +22,71 @@ public class MetroPresentationImplementation implements MetroPresentation {
 	public void menu() {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("1. New user registration");
-		System.out.println("2. Request new card");
-		System.out.println("3. Sign in");
+//		System.out.println("1. New user registration");
+		System.out.println("1. Request new card");
+		System.out.println("2. Sign in");
 		System.out.println("X. Press any other key to exit");
 		
 		int choice = sc.nextInt();
 		switch(choice) {
 			case 1:
-				System.out.println("Name: ");
-				String newUserName = sc.next();
-				System.out.println("Email: ");
-				String newUserEmail = sc.next();
-				System.out.println("Contact: ");
-				long newUserContact = sc.nextLong();
-				
-				//create user
-				UserServiceImplementation usi = new UserServiceImplementation();
-				if(usi.addUser(newUserName, newUserEmail, newUserContact)) {
-					System.out.println("User registration successful");
-				} else {
-					System.out.println("User registration unsuccessful");
-				}
-				break;
-			case 2:
-				//to create a new card, person has to be a registered user
-				
 				System.out.println("Email: ");
 				String newCardEmail = sc.next();
-				System.out.println("Password: ");
-				String newCardPassword = sc.next();
-				System.out.println("Balance: ");
-				long newCardBalance = sc.nextLong();
 				
-				//create card
-				CardServiceImplementation csi = new CardServiceImplementation();
-				if(csi.generateCard(newCardEmail, newCardPassword, newCardBalance)) {
-					System.out.println("New card generated");
+				//check if email exist in user table
+				UserServiceImplementation usi = new UserServiceImplementation();
+				if(!usi.userEmailAlreadyInUse(newCardEmail)) {
+					System.out.println("You are not a registered user");
+					System.out.println("1. Register");
+					System.out.println("X. Press any other key to exit");
+					
+					int userChoice = sc.nextInt();
+					if(userChoice == 1) {
+						System.out.println("Name: ");
+						String newUserName = sc.next();
+						System.out.println("Contact: ");
+						long newUserContact = sc.nextLong();
+						
+						//create user
+						if(usi.addUser(newUserName, newCardEmail, newUserContact)) {
+							System.out.println("User registration successful");
+							
+							System.out.println("New Card Password: ");
+							String newCardPassword = sc.next();
+							System.out.println("Balance: ");
+							long newCardBalance = sc.nextLong();
+							
+							//create card
+							CardServiceImplementation csi = new CardServiceImplementation();
+							if(csi.generateCard(newCardEmail, newCardPassword, newCardBalance)) {
+								System.out.println("New card generated");
+							} else {
+								System.out.println("Couldn't generate new card");
+							}
+						} else {
+							System.out.println("User registration unsuccessful");
+						}
+					} else {
+						System.exit(0);
+					}
 				} else {
-					System.out.println("Couldn't generate new card");
+					//user exists
+					System.out.println("New Card Password: ");
+					String newCardPassword = sc.next();
+					System.out.println("Balance: ");
+					long newCardBalance = sc.nextLong();
+					
+					//create card
+					CardServiceImplementation csi = new CardServiceImplementation();
+					if(csi.generateCard(newCardEmail, newCardPassword, newCardBalance)) {
+						System.out.println("New card generated");
+					} else {
+						System.out.println("Couldn't generate new card");
+					}
 				}
+				
 				break;
-			case 3:
+			case 2:
 				System.out.println("Email: ");
 				String signInCardEmail = sc.next();
 				System.out.println("Password: ");
@@ -95,11 +116,11 @@ public class MetroPresentationImplementation implements MetroPresentation {
 		boolean isCardSwipedIn;
 		
 		//get last transaction
+		TransactionServiceImplementation tsi = new TransactionServiceImplementation();
 		CardServiceImplementation csi = new CardServiceImplementation();
-		
 		//if swipeOutDate/swipeOutTime is null, isCardSwipedIn = true
 		//else, isCardSwipedIn = false
-		isCardSwipedIn = (csi.getLastTransaction().getSwipeInTime() != null && csi.getLastTransaction().getSwipeOutTime() == null);
+		isCardSwipedIn = (tsi.getLastTransaction().getSwipeInTime() != null && tsi.getLastTransaction().getSwipeOutTime() == null);
 		
 		if(isCardSwipedIn) {
 			//if isCardSwipedIn = true
@@ -112,6 +133,7 @@ public class MetroPresentationImplementation implements MetroPresentation {
 		}
 		System.out.println("2. Update balance");
 		System.out.println("3. Check balance");
+		System.out.println("4. Sign out");
 		System.out.println("X. Press any other key to exit");
 		
 		int choice = sc.nextInt();
@@ -120,31 +142,30 @@ public class MetroPresentationImplementation implements MetroPresentation {
 				if(!isCardSwipedIn) {
 					//fetch metro stations
 					MetroServiceImplementation msi = new MetroServiceImplementation();
-					List<Metro> listOfMetroStations = msi.fetchMetroStations();
+					List<MetroStation> listOfMetroStations = msi.fetchMetroStations();
 
 					//ask user for email and password
 					//if authentication fails, alert user
 					
 					//ask for source
-					int index = 1;
+					int index = 0;
 					System.out.println("Source: ");
-					for(Metro metro: listOfMetroStations) {
+					for(MetroStation metro: listOfMetroStations) {
 						System.out.println(index + ". " + metro.getName());
 						index++;
 					}
 					int metroSourceChoice = sc.nextInt();
-					Metro sourceMetroStation = listOfMetroStations.get(metroSourceChoice);
+					MetroStation sourceMetroStation = listOfMetroStations.get(metroSourceChoice);
 					
 					//ask for source
-					index = 1;
+					index = 0;
 					System.out.println("Destination: ");
-					for(Metro metro: listOfMetroStations) {
+					for(MetroStation metro: listOfMetroStations) {
 						System.out.println(index + ". " + metro.getName());
 						index++;
 					}
 					int metroDestinationChoice = sc.nextInt();
-					Metro destinationMetroStation = listOfMetroStations.get(metroDestinationChoice);
-//					
+					MetroStation destinationMetroStation = listOfMetroStations.get(metroDestinationChoice);
 					
 					//if minimum balance condition is not satisfied, alert user to update balance
 					double journeyFare = msi.calculateFare(sourceMetroStation, destinationMetroStation);
@@ -153,25 +174,22 @@ public class MetroPresentationImplementation implements MetroPresentation {
 					if((cardBalance - journeyFare) > CardService.minimumBalance) {
 						//enough balance to travel and maintain minimum balance in card
 						//create a new transaction
-						TransactionServiceImplementation tsi = new TransactionServiceImplementation();
+						
 						if(tsi.addTransaction(cardId,sourceMetroStation, destinationMetroStation)) {
-							System.out.println("Swiped-out");
+							System.out.println("Swiped-in");
 						} else {
-							System.out.println("Couldn't swiped-out");
+							System.out.println("Couldn't swiped-in");
 						}
 					} else {
 						//not enough balance in card, after journey
 						//alert user to update card balance
-						
+						System.out.println("You do not have enough balance in the card, please recharge");
 					}
 				} else {
 					//take the last transaction and update it
-					//update transaction
-					//set swipe_out_date = currentDate,
-					//swipe_out_time = currentTime
-					//where id = lastTransaction.getId();
-					int transactionToUpdate = csi.getLastTransaction().getId();
-					TransactionServiceImplementation tsi = new TransactionServiceImplementation();
+
+					int transactionToUpdate = tsi.getLastTransaction().getId();
+
 					if(tsi.updateTransaction(transactionToUpdate)) {
 						System.out.println("Swiped-out");
 					} else {
@@ -183,7 +201,7 @@ public class MetroPresentationImplementation implements MetroPresentation {
 			case 2:
 				System.out.println("Add amount: ₹");
 				double incrementCardBalanceByAmount = sc.nextDouble();
-				if(csi.updateBalance(choice, incrementCardBalanceByAmount)) {
+				if(csi.updateBalance(card.getId(), incrementCardBalanceByAmount)) {
 					System.out.println("Card balance updated");
 				} else {
 					System.out.println("Couldn't update card balance");
@@ -191,12 +209,17 @@ public class MetroPresentationImplementation implements MetroPresentation {
 				
 				break;
 			case 3:
-				System.out.println("Card balance: " + csi.checkBalance(choice));
+				System.out.println("Card balance: " + csi.checkBalance(card.getId()));
+				break;
+			case 4:
+				card = null;
+				menu();
 				break;
 			default:
 				System.exit(0);
 		}
 		
 //		sc.close();
+		metro_menu();
 	}
 }

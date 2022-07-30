@@ -1,6 +1,7 @@
 package com.metro.service;
 
-import com.metro.bean.Metro;
+
+import com.metro.bean.MetroStation;
 import com.metro.bean.Transaction;
 import com.metro.persistence.MetroDaoImplementation;
 import com.metro.persistence.TransactionDaoImplementation;
@@ -10,9 +11,7 @@ public class TransactionServiceImplementation implements TransactionService {
 	MetroDaoImplementation mdi = new MetroDaoImplementation();
 
 	@Override
-	public boolean addTransaction(int cardid, Metro source, Metro destination) {
-		if(tdi.getTransactionByCardID(cardid)!=null)
-			return false;
+	public boolean addTransaction(int cardid, MetroStation source, MetroStation destination) {
 		Transaction t = new Transaction();
 		t.setCardId(cardid);
 		t.setSourceId(source.getId());
@@ -30,6 +29,11 @@ public class TransactionServiceImplementation implements TransactionService {
 			return tdi.updateTransaction(t);
 		}
 		return false;
+	}
+	@Override
+	public Transaction getLastTransaction() {
+		// TODO Auto-generated method stub
+		return tdi.getLastTransaction();
 	}
 
 }

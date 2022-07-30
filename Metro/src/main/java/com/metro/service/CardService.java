@@ -1,8 +1,5 @@
 package com.metro.service;
 
-import com.metro.bean.Transaction;
-import com.metro.bean.User;
-
 public interface CardService {
 	static double minimumBalance = 20;
 	
@@ -12,5 +9,5 @@ public interface CardService {
 	
 	public boolean updateBalance(int cardId, double amount);
 	
-	public Transaction getLastTransaction();
+
 }

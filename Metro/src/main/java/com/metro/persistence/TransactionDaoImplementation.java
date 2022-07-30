@@ -9,10 +9,12 @@ import java.sql.Timestamp;
 import com.metro.bean.Transaction;
 import com.metro.jdbc.ConnectionUtil;
 
+
 public class TransactionDaoImplementation implements TransactionDao {
 	private Connection con = ConnectionUtil.getConnection();
 
 	@Override
+
 	public boolean addTransaction(Transaction t ) {
 		int rows = 0;			
 			try (PreparedStatement preparedStatement = con.prepareStatement("INSERT INTO transaction(card_id,source_metro_id,destination_metro_id,swipe_in_time,fare_calculated) values(?,?,?,CURRENT_TIMESTAMP,?)");) {
@@ -29,8 +31,7 @@ public class TransactionDaoImplementation implements TransactionDao {
 				e.printStackTrace();
 			}
 
-			return (rows>0);
-	}
+			return (rows>0);}
 
 	@Override
 	public boolean updateTransaction(Transaction t) {
@@ -76,11 +77,10 @@ public class TransactionDaoImplementation implements TransactionDao {
 		return transaction;
 	}
 	@Override
-	public Transaction getTransactionByCardID(int cardid) {
+	public Transaction getLastTransaction() {
 		Transaction transaction = null;
-		try (PreparedStatement preparedStatement = con.prepareStatement("select * from transaction where card_id = ?");) {
-			preparedStatement.setInt(1, cardid);
-
+		try (PreparedStatement preparedStatement = con.prepareStatement("select * from transaction order by id desc limit 1");) {
+	
 			ResultSet resultSet = preparedStatement.executeQuery();
 			
 			if(!resultSet.next()) return null;

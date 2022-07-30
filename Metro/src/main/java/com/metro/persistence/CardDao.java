@@ -1,6 +1,5 @@
 package com.metro.persistence;
 
-import com.metro.bean.Transaction;
 import com.metro.bean.User;
 
 public interface CardDao {
@@ -10,5 +9,4 @@ public interface CardDao {
 	
 	public boolean updateBalance(int cardId, double amount);
 	
-	public Transaction getLastTransaction();
 }
