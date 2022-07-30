@@ -2,10 +2,10 @@ package com.metro.service;
 
 import java.util.List;
 
-import com.metro.bean.Metro;
+import com.metro.bean.MetroStation;
 
 public interface MetroService {
-	public double calculateFare(Metro source, Metro destination);
+	public double calculateFare(MetroStation source, MetroStation destination);
 	
-	public List<Metro> fetchMetroStations();
+	public List<MetroStation> fetchMetroStations();
 }

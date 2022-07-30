@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class Transaction {
 	private int id;
 	private int cardId;
-	private Metro source;
-	private Metro destination;
+	private MetroStation source;
+	private MetroStation destination;
 	private LocalDate swipeInDate;
 	private LocalTime swipeInTime;
 	private LocalDate swipeOutDate;

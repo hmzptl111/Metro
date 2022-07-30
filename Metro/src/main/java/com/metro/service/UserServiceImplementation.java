@@ -1,5 +1,6 @@
 package com.metro.service;
 
+import com.metro.bean.User;
 import com.metro.persistence.UserDaoImplementation;
 
 import lombok.AllArgsConstructor;
@@ -16,5 +17,15 @@ public class UserServiceImplementation implements UserService {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		return udi.getUserByEmail(email);
+	}
+
+	@Override
+	public boolean userEmailAlreadyInUse(String email) {
+		return udi.userEmailAlreadyInUse(email);
 	}
 }

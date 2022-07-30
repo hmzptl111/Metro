@@ -39,7 +39,7 @@ public class CardSignInImplementation implements CardSignIn {
 				
 				User user = new User(userEmail, userName, userContact);
 				
-				card = new Card(cardId, cardBalance, cardEmail, cardPassword, user);
+				card = new Card(cardId, cardBalance, cardEmail, cardPassword);
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();

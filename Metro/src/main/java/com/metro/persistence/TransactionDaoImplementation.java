@@ -3,13 +3,12 @@ package com.metro.persistence;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.metro.bean.Metro;
-import com.metro.bean.Transaction;
+import com.metro.bean.MetroStation;
 
 public class TransactionDaoImplementation implements TransactionDao {
 
 	@Override
-	public boolean addTransaction(Metro source, Metro destination, LocalDate swipeInDate, LocalTime swipeInTime) {
+	public boolean addTransaction(MetroStation source, MetroStation destination, LocalDate swipeInDate, LocalTime swipeInTime) {
 		//add a new record in transaction table
 		//if rows returned is > 0, return true, else false
 		return true;
