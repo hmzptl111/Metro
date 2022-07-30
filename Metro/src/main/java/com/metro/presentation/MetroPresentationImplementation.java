@@ -7,7 +7,6 @@ import java.util.Scanner;
 
 import com.metro.bean.Card;
 import com.metro.bean.Metro;
-import com.metro.bean.Transaction;
 import com.metro.service.CardService;
 import com.metro.service.CardServiceImplementation;
 import com.metro.service.MetroServiceImplementation;
@@ -100,7 +99,7 @@ public class MetroPresentationImplementation implements MetroPresentation {
 		
 		//if swipeOutDate/swipeOutTime is null, isCardSwipedIn = true
 		//else, isCardSwipedIn = false
-		isCardSwipedIn = (csi.getLastTransaction().getSwipeOutDate() == null || csi.getLastTransaction().getSwipeOutTime() == null);
+		isCardSwipedIn = (csi.getLastTransaction().getSwipeInTime() != null && csi.getLastTransaction().getSwipeOutTime() == null);
 		
 		if(isCardSwipedIn) {
 			//if isCardSwipedIn = true
@@ -145,19 +144,17 @@ public class MetroPresentationImplementation implements MetroPresentation {
 					}
 					int metroDestinationChoice = sc.nextInt();
 					Metro destinationMetroStation = listOfMetroStations.get(metroDestinationChoice);
-					
+//					
 					
 					//if minimum balance condition is not satisfied, alert user to update balance
 					double journeyFare = msi.calculateFare(sourceMetroStation, destinationMetroStation);
 					double cardBalance = csi.checkBalance(choice);
+					int cardId = card.getId();
 					if((cardBalance - journeyFare) > CardService.minimumBalance) {
 						//enough balance to travel and maintain minimum balance in card
 						//create a new transaction
-						LocalDate currentDate = LocalDate.now();
-						LocalTime currentTime = LocalTime.now();
-						
 						TransactionServiceImplementation tsi = new TransactionServiceImplementation();
-						if(tsi.addTransaction(sourceMetroStation, destinationMetroStation, currentDate, currentTime)) {
+						if(tsi.addTransaction(cardId,sourceMetroStation, destinationMetroStation)) {
 							System.out.println("Swiped-out");
 						} else {
 							System.out.println("Couldn't swiped-out");
@@ -169,15 +166,13 @@ public class MetroPresentationImplementation implements MetroPresentation {
 					}
 				} else {
 					//take the last transaction and update it
-					LocalDate currentDate = LocalDate.now();
-					LocalTime currentTime = LocalTime.now();
 					//update transaction
 					//set swipe_out_date = currentDate,
 					//swipe_out_time = currentTime
 					//where id = lastTransaction.getId();
 					int transactionToUpdate = csi.getLastTransaction().getId();
 					TransactionServiceImplementation tsi = new TransactionServiceImplementation();
-					if(tsi.updateTransaction(transactionToUpdate, currentDate, currentTime)) {
+					if(tsi.updateTransaction(transactionToUpdate)) {
 						System.out.println("Swiped-out");
 					} else {
 						System.out.println("Couldn't swiped-out");

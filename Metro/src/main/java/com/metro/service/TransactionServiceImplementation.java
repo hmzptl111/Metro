@@ -1,27 +1,35 @@
 package com.metro.service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 import com.metro.bean.Metro;
 import com.metro.bean.Transaction;
+import com.metro.persistence.MetroDaoImplementation;
 import com.metro.persistence.TransactionDaoImplementation;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 public class TransactionServiceImplementation implements TransactionService {
 	TransactionDaoImplementation tdi = new TransactionDaoImplementation();
+	MetroDaoImplementation mdi = new MetroDaoImplementation();
 
 	@Override
-	public boolean addTransaction(Metro source, Metro destination, LocalDate swipeInDate, LocalTime swipeInTime) {
-		return tdi.addTransaction(source, destination, swipeInDate, swipeInTime);
+	public boolean addTransaction(int cardid, Metro source, Metro destination) {
+		if(tdi.getTransactionByCardID(cardid)!=null)
+			return false;
+		Transaction t = new Transaction();
+		t.setCardId(cardid);
+		t.setSourceId(source.getId());
+		t.setDestinationId(destination.getId());
+		t.setFare(mdi.calculateFare(source, destination));
+		return tdi.addTransaction(t);
 	}
 
 	@Override
-	public boolean updateTransaction(int transactionId, LocalDate date, LocalTime time) {
-		return tdi.updateTransaction(transactionId, date, time);
+	public boolean updateTransaction(int transactionId) {
+		Transaction t = tdi.getTransactionBytransactionID(transactionId);
+		if (t == null)
+			return false;
+		else if (t.getSwipeOutTime() == null && t.getSwipeInTime() != null) {
+			return tdi.updateTransaction(t);
+		}
+		return false;
 	}
 
 }
