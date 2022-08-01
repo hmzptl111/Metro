@@ -1,6 +1,7 @@
 package com.metro.persistence;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,11 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.metro.bean.MetroStation;
-import com.metro.jdbc.ConnectionUtil;
 
 public class MetroDaoImplementation implements MetroDao {
 	
-	private Connection conn = ConnectionUtil.getConnection();
+	
 	@Override
 	public double calculateFare(MetroStation source, MetroStation destination) {
 		int startingPoint = source.getId();
@@ -30,7 +30,8 @@ public class MetroDaoImplementation implements MetroDao {
 		List<MetroStation> listOfMetroStation = new ArrayList<MetroStation>();
 //		return listOfMetroStation;
 //		User user = null;
-		try (Statement statement = conn.createStatement()) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+				Statement statement = conn.createStatement()) {
 
 			ResultSet resultSet = statement.executeQuery("select * from metro");
 			
@@ -43,6 +44,7 @@ public class MetroDaoImplementation implements MetroDao {
 			listOfMetroStation.add(metro);
 			
 			}
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

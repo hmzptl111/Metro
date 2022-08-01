@@ -1,19 +1,19 @@
 package com.metro.persistence;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.metro.bean.User;
-import com.metro.jdbc.ConnectionUtil;
 
 public class UserDaoImplementation implements UserDao {
-	private Connection conn = ConnectionUtil.getConnection();
 	
 	public User getUserByEmail(String email) {
 		User user = null;
-		try (PreparedStatement preparedStatement = conn.prepareStatement("select * from user where email = ?");) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+				PreparedStatement preparedStatement = conn.prepareStatement("select * from user where email = ?");) {
 			preparedStatement.setString(1, email);
 
 			ResultSet resultSet = preparedStatement.executeQuery();
@@ -25,6 +25,7 @@ public class UserDaoImplementation implements UserDao {
 			long userContact = resultSet.getLong(3);
 			
 			user = new User(userEmail, userName, userContact);
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -36,13 +37,15 @@ public class UserDaoImplementation implements UserDao {
 	public boolean userEmailAlreadyInUse(String email) {
 		ResultSet resultSet = null;
 		String userEmail = null;
-		try (PreparedStatement preparedStatement = conn.prepareStatement("select email from user where email = ?");) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+				PreparedStatement preparedStatement = conn.prepareStatement("select email from user where email = ?");) {
 
 			preparedStatement.setString(1, email);
 
 			resultSet = preparedStatement.executeQuery();
 			if(!resultSet.next()) return false;
 			userEmail = resultSet.getString(1);
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -53,13 +56,15 @@ public class UserDaoImplementation implements UserDao {
 	@Override
 	public boolean addUser(String name, String email, long contact) {
 		int rows = 0;
-		try (PreparedStatement preparedStatement = conn.prepareStatement("insert into user(email, name, contact) values(?, ?, ?)");) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+				PreparedStatement preparedStatement = conn.prepareStatement("insert into user(email, name, contact) values(?, ?, ?)");) {
 
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, name);
 			preparedStatement.setLong(3, contact);
 
 			rows = preparedStatement.executeUpdate();
+			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

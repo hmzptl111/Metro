@@ -34,4 +34,9 @@ public class CardServiceImplementation implements CardService {
 		
 		return false;
 	}
+	@Override
+	public boolean deductfair(int cardId, double journeyFare) {
+		// TODO Auto-generated method stub
+		return cdi.deductfair(cardId,  journeyFare);
+	}
 }

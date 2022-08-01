@@ -176,6 +176,7 @@ public class MetroPresentationImplementation implements MetroPresentation {
 						//create a new transaction
 						
 						if(tsi.addTransaction(cardId,sourceMetroStation, destinationMetroStation)) {
+							csi.deductfair(cardId,journeyFare);
 							System.out.println("Swiped-in");
 						} else {
 							System.out.println("Couldn't swiped-in");

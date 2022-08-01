@@ -8,6 +8,8 @@ public interface CardService {
 	public double checkBalance(int cardId);
 	
 	public boolean updateBalance(int cardId, double amount);
+
+	public boolean deductfair(int cardId, double journeyFare);
 	
 
 }
