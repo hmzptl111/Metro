@@ -1,22 +1,24 @@
 package com.metro.validation;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.metro.bean.Card;
 import com.metro.bean.User;
-import com.metro.jdbc.ConnectionUtil;
+
 
 public class CardSignInImplementation implements CardSignIn {
-	private Connection conn = ConnectionUtil.getConnection();
+
 	
 	@Override
 	public Card signIn(String email, String password) {
 		Card card = null;
 		ResultSet resultSet = null;
-		try(PreparedStatement preparedStatement = conn.prepareStatement("select * from card where email = ? and password = ?")) {
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+				PreparedStatement preparedStatement = conn.prepareStatement("select * from card where email = ? and password = ?")) {
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
 			
@@ -40,6 +42,7 @@ public class CardSignInImplementation implements CardSignIn {
 				User user = new User(userEmail, userName, userContact);
 				
 				card = new Card(cardId, cardBalance, cardEmail, cardPassword);
+				conn.close();
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
