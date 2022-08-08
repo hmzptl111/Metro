@@ -9,7 +9,5 @@ public interface CardService {
 	
 	public boolean updateBalance(int cardId, double amount);
 
-	public boolean deductfair(int cardId, double journeyFare);
-	
-
+	public boolean deductFare(int cardId, double journeyFare);
 }

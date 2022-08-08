@@ -10,12 +10,19 @@ public class MetroServiceImplementation implements MetroService {
 
 	@Override
 	public double calculateFare(MetroStation source, MetroStation destination) {
-		return mdi.calculateFare(source, destination);
+		int factor = Math.abs(source.getId() - destination.getId());
+		double fair = factor * 5;
+		
+		return fair;
+	}
+	
+	@Override
+	public MetroStation getMetroStation(int metroStationId) {
+		return mdi.getMetroStation(metroStationId);
 	}
 
 	@Override
 	public List<MetroStation> fetchMetroStations() {
 		return mdi.fetchMetroStations();
 	}
-
 }

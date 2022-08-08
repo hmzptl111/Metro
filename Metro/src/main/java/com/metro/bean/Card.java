@@ -12,5 +12,4 @@ public class Card {
 	private double balance;
 	private String email;
 	private String password;
-//	private User user;
 }

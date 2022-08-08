@@ -20,8 +20,6 @@ public class CardServiceImplementation implements CardService {
 		return cdi.updateBalance(cardId, amount);
 	}
 
-	
-
 	@Override
 	public boolean generateCard(String email, String password, long balance) {
 		if(balance < 100) return false;
@@ -34,9 +32,9 @@ public class CardServiceImplementation implements CardService {
 		
 		return false;
 	}
+	
 	@Override
-	public boolean deductfair(int cardId, double journeyFare) {
-		// TODO Auto-generated method stub
-		return cdi.deductfair(cardId,  journeyFare);
+	public boolean deductFare(int cardId, double journeyFare) {
+		return cdi.deductFare(cardId,  journeyFare);
 	}
 }

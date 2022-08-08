@@ -10,44 +10,35 @@ import com.metro.bean.User;
 
 public class CardDaoImplementation implements CardDao {
 
-
 	@Override
 	public boolean updateBalance(int cardId, double amount) {
-		//check balance
 		int rows = 0;
 		double currentCardBalance = checkBalance(cardId);
 		double updatedCardBalance = currentCardBalance + amount;
-		//update card set balance = updatedCardBalance where card_id = cardId;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
-				PreparedStatement preparedStatement = conn.prepareStatement("update card set balance = ? where id = ?");) {
+			PreparedStatement preparedStatement = conn.prepareStatement("update card set balance = ? where id = ?");) {
 			preparedStatement.setDouble(1, updatedCardBalance);
 			preparedStatement.setInt(2, cardId);
 			
 			rows = preparedStatement.executeUpdate();
-			conn.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return (rows > 0);
-		
 	}
 
 	@Override
 	public double checkBalance(int cardId) {
-		//select balance from card where id = cardId
 		double balance = -1;
-		
-		try(	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
-				PreparedStatement preparedStatement = conn.prepareStatement("select balance from card where id = ?");) {
+		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+			PreparedStatement preparedStatement = conn.prepareStatement("select balance from card where id = ?");) {
 			preparedStatement.setInt(1, cardId);
 			
 			ResultSet resultSet = preparedStatement.executeQuery();
-			
 			if(resultSet.next()) {
 				balance = resultSet.getDouble(1);
 			}
-			conn.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,39 +49,35 @@ public class CardDaoImplementation implements CardDao {
 	@Override
 	public boolean generateCard(User user, String password, long balance) {
 		int rows = 0;
-		try (	Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
-				PreparedStatement preparedStatement = conn.prepareStatement("insert into card(email, password, balance) values(?, ?, ?)");) {
+		try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
+			PreparedStatement preparedStatement = conn.prepareStatement("insert into card(email, password, balance) values(?, ?, ?)");) {
 			preparedStatement.setString(1, user.getEmail());
 			preparedStatement.setString(2, password);
 			preparedStatement.setLong(3, balance);
 
 			rows = preparedStatement.executeUpdate();
-			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return (rows > 0);
 	}
+	
 	@Override
-	public boolean deductfair(int cardId, double journeyFare) {
+	public boolean deductFare(int cardId, double journeyFare) {
 		int rows = 0;
 		double currentCardBalance = checkBalance(cardId);
 		double updatedCardBalance = currentCardBalance - journeyFare;
-		//update card set balance = updatedCardBalance where card_id = cardId;
 		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
-				PreparedStatement preparedStatement = conn.prepareStatement("update card set balance = ? where id = ?");) {
+			PreparedStatement preparedStatement = conn.prepareStatement("update card set balance = ? where id = ?");) {
 			preparedStatement.setDouble(1, updatedCardBalance);
 			preparedStatement.setInt(2, cardId);
 			
 			rows = preparedStatement.executeUpdate();
-			conn.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return (rows > 0);
-
 	}
-	
 }

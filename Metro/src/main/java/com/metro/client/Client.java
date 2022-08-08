@@ -8,7 +8,7 @@ public class Client
     {
     	MetroPresentationImplementation mpi = new MetroPresentationImplementation();
     	while(true) {
-			mpi.menu();
+    		mpi.menu();
 		}
     }
 }

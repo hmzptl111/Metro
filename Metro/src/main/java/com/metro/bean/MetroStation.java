@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 
-//change Metro to MetroStation
 public class MetroStation {
 	private int id;
 	private String name;

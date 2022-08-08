@@ -4,11 +4,10 @@ import com.metro.bean.User;
 
 public interface CardDao {
 	public boolean generateCard(User user, String password, long balance);
-	
+
 	public double checkBalance(int cardId);
-	
+
 	public boolean updateBalance(int cardId, double amount);
 
-	public boolean deductfair(int cardId, double journeyFare);
-	
+	public boolean deductFare(int cardId, double journeyFare);
 }

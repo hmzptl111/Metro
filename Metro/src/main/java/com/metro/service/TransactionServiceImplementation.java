@@ -11,29 +11,25 @@ public class TransactionServiceImplementation implements TransactionService {
 	MetroDaoImplementation mdi = new MetroDaoImplementation();
 
 	@Override
-	public boolean addTransaction(int cardid, MetroStation source, MetroStation destination) {
-		Transaction t = new Transaction();
-		t.setCardId(cardid);
-		t.setSourceId(source.getId());
-		t.setDestinationId(destination.getId());
-		t.setFare(mdi.calculateFare(source, destination));
-		return tdi.addTransaction(t);
+	public boolean addTransaction(int cardId, MetroStation source) {
+		Transaction transaction = new Transaction();
+		transaction.setCardId(cardId);
+		transaction.setSourceId(source.getId());
+		
+		return tdi.addTransaction(transaction);
 	}
 
 	@Override
-	public boolean updateTransaction(int transactionId) {
-		Transaction t = tdi.getTransactionBytransactionID(transactionId);
-		if (t == null)
-			return false;
-		else if (t.getSwipeOutTime() == null && t.getSwipeInTime() != null) {
-			return tdi.updateTransaction(t);
-		}
-		return false;
+	public boolean updateTransaction(int transactionId, int destinationMetroStationId, double fare) {
+		Transaction transaction = tdi.getTransactionBytransactionID(transactionId);
+		transaction.setDestinationId(destinationMetroStationId);
+		transaction.setFare(fare);
+		
+		return tdi.updateTransaction(transaction);
 	}
+	
 	@Override
 	public Transaction getLastTransaction() {
-		// TODO Auto-generated method stub
 		return tdi.getLastTransaction();
 	}
-
 }

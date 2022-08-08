@@ -2,15 +2,12 @@ package com.metro.persistence;
 
 import com.metro.bean.Transaction;
 
-
 public interface TransactionDao {
+	public boolean addTransaction(Transaction transaction);
 
+	public Transaction getTransactionBytransactionID(int transactionId);
 
-	public boolean addTransaction(Transaction t);
-
-	public Transaction getTransactionBytransactionID(int tid);
-
-	public boolean updateTransaction(Transaction t);
+	public boolean updateTransaction(Transaction transaction);
+	
 	public Transaction getLastTransaction();
-
 }

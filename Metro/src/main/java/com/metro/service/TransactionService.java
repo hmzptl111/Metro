@@ -7,9 +7,9 @@ import com.metro.bean.Transaction;
 
 public interface TransactionService {
 	
-	public boolean addTransaction(int cardid, MetroStation source, MetroStation destination);
+	public boolean addTransaction(int cardId, MetroStation source);
 
-	boolean updateTransaction(int transactionId);
+	boolean updateTransaction(int transactionId, int destinationMetroStationId, double fare);
 
 	Transaction getLastTransaction();
 }
