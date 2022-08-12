@@ -1,38 +1,24 @@
 package com.metro.validation;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.metro.bean.Card;
-import com.metro.bean.User;
+import com.metro.persistence.util.CardRowMapper;
 
-
+@Component
 public class CardSignInImplementation implements CardSignIn {
+	private JdbcTemplate jdbcTemplate;
+	
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	@Override
 	public Card signIn(String email, String password) {
-		Card card = null;
-		try(Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/metro",  "root", "wiley");
-			PreparedStatement preparedStatement = conn.prepareStatement("select * from card where email = ? and password = ?")) {
-			preparedStatement.setString(1, email);
-			preparedStatement.setString(2, password);
-			
-			ResultSet cardResultSet = preparedStatement.executeQuery();
-			if(!cardResultSet.next()) return null;
-			
-			int cardId = cardResultSet.getInt(1);
-			String cardEmail = cardResultSet.getString(2);
-			String cardPassword = cardResultSet.getString(3);
-			double cardBalance = cardResultSet.getDouble(4);
-			
-			card = new Card(cardId, cardBalance, cardEmail, cardPassword);
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		
+		String query = "select * from card where email = ? and password = ?";
+		Card card = jdbcTemplate.queryForObject(query, new CardRowMapper(), email, password);
+
 		return card;
 	}
 }

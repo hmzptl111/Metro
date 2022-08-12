@@ -1,14 +1,25 @@
 package com.metro.service;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.metro.bean.MetroStation;
 import com.metro.bean.Transaction;
 import com.metro.persistence.MetroDaoImplementation;
 import com.metro.persistence.TransactionDaoImplementation;
 
+@Service
 public class TransactionServiceImplementation implements TransactionService {
 	TransactionDaoImplementation tdi = new TransactionDaoImplementation();
-	MetroDaoImplementation mdi = new MetroDaoImplementation();
+	
+	@Autowired
+	TransactionDaoImplementation transactionDaoImplementation;
+	
+	@Autowired
+	public void setTransactionServiceImplementation(TransactionDaoImplementation transactionDaoImplementation) {
+		this.transactionDaoImplementation = transactionDaoImplementation; 
+	}
 
 	@Override
 	public boolean addTransaction(int cardId, MetroStation source) {
@@ -16,20 +27,20 @@ public class TransactionServiceImplementation implements TransactionService {
 		transaction.setCardId(cardId);
 		transaction.setSourceId(source.getId());
 		
-		return tdi.addTransaction(transaction);
+		return transactionDaoImplementation.addTransaction(transaction);
 	}
 
 	@Override
 	public boolean updateTransaction(int transactionId, int destinationMetroStationId, double fare) {
-		Transaction transaction = tdi.getTransactionBytransactionID(transactionId);
+		Transaction transaction = transactionDaoImplementation.getTransactionBytransactionID(transactionId);
 		transaction.setDestinationId(destinationMetroStationId);
 		transaction.setFare(fare);
 		
-		return tdi.updateTransaction(transaction);
+		return transactionDaoImplementation.updateTransaction(transaction);
 	}
 	
 	@Override
 	public Transaction getLastTransaction() {
-		return tdi.getLastTransaction();
+		return transactionDaoImplementation.getLastTransaction();
 	}
 }
