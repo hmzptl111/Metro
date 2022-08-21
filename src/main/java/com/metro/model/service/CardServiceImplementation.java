@@ -4,36 +4,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metro.bean.User;
-import com.metro.model.persistence.CardDaoImplementation;
-import com.metro.model.persistence.UserDaoImplementation;
+import com.metro.model.persistence.CardDao;
+import com.metro.model.persistence.UserDao;
 
 @Service
 public class CardServiceImplementation implements CardService {
 	@Autowired
-	private CardDaoImplementation cardDaoImplementation;
+	private CardDao cardDao;
 	
 	@Autowired
-	private UserDaoImplementation userDaoImplementation;
-
+	private UserDao userDao;
+	
 	@Override
 	public double checkBalance(int cardId) {
-		return cardDaoImplementation.checkBalance(cardId);
+		return cardDao.checkBalance(cardId);
 	}
 
 	@Override
 	public boolean updateBalance(int cardId, double amount) {
 		if(amount < 0) return false;
 		
-		return cardDaoImplementation.updateBalance(cardId, amount);
+		int rows = cardDao.updateBalance(cardId, amount);
+		
+		return (rows > 0);
 	}
 
 	@Override
 	public boolean generateCard(String email, String password, double balance) {
 		if(balance < 100) return false;
 		
-		User user = userDaoImplementation.getUserByEmail(email);
+		User user = userDao.findByEmail(email);
 		if(user != null) {
-			return cardDaoImplementation.generateCard(user, password, balance);
+			int rows = cardDao.generateCard(user, password, balance);
+			return (rows > 0);
 		}
 		
 		return false;
@@ -41,6 +44,8 @@ public class CardServiceImplementation implements CardService {
 	
 	@Override
 	public boolean deductFare(int cardId, double journeyFare) {
-		return cardDaoImplementation.deductFare(cardId,  journeyFare);
+		int rows = cardDao.deductFare(cardId,  journeyFare);
+		
+		return (rows > 0);
 	}
 }

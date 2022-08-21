@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Metro - Update balance</title>
+</head>
+<body>
+<h1>Metro</h1>
+<p th:text = "${message}"></p>
+<form action = "/updateBalance" method = "POST">
+	<input type = "number" placeholder = "add amount" name = "amount">
+	<input type = "submit" value = "Add amount">
+</form>
+<a href = "/">Menu</a>
+</body>
+</html>

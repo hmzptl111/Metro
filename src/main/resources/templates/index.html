@@ -7,7 +7,7 @@
 <body>
 <h1>Metro</h1>
 <p th:text = "${message}"></p>
-<!-- <a href = "/newCard">Request new card</a><br> -->
+
 <div>
 	<a href = "/swipeOut" th:if="${session.isSwipedIn}">Swipe out</a>
 	<a href = "/swipeIn" th:unless="${session.isSwipedIn}">Swipe in</a>

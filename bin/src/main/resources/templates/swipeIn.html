@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th = "https://thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Metro - Swipe in</title>
+</head>
+<body>
+<h1>Metro</h1>
+<p>Source metro station:</p>
+<form action = "/swipeIn" method = "POST">
+	<select name = "metroStation">
+		<option th:each = "metroStation: ${metroStations}" th:value = "${metroStation.name}" th:label = "${metroStation.name}"></option>
+	</select>
+	<input type = "submit" value = "Swipe in">
+</form>
+<a href = "/">Menu</a>
+</body>
+</html>

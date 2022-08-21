@@ -2,10 +2,14 @@ package com.metro.model.persistence;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import com.metro.bean.MetroStation;
 
-public interface MetroStationDao {
-	public MetroStation getMetroStation(int metroStationId);
+@Repository
+public interface MetroStationDao extends JpaRepository<MetroStation, Integer> {
+	MetroStation findById(int metroStationId);
 	
-	public List<MetroStation> fetchMetroStations();
+	List<MetroStation> findAllByOrderByIdAsc();
 }

@@ -8,12 +8,11 @@ import com.metro.model.persistence.SignInDao;
 
 @Service
 public class SignInServiceImplementation implements SignInService {
-	
 	@Autowired
 	private SignInDao signInDao;
 
 	@Override
 	public Card signIn(String email, String password) {
-		return signInDao.signIn(email, password);
+		return signInDao.findByEmailAndPassword(email, password);
 	}
 }

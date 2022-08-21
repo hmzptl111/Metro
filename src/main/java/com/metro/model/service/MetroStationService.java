@@ -5,9 +5,9 @@ import java.util.List;
 import com.metro.bean.MetroStation;
 
 public interface MetroStationService {
-	public double calculateFare(MetroStation source, MetroStation destination);
+	double calculateFare(MetroStation source, MetroStation destination);
 	
-	public MetroStation getMetroStation(int metroStationId);
+	MetroStation getMetroStation(int metroStationId);
 	
-	public List<MetroStation> fetchMetroStations();
+	List<MetroStation> fetchMetroStations();
 }

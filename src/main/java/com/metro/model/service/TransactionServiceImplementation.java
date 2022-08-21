@@ -5,33 +5,29 @@ import org.springframework.stereotype.Service;
 
 import com.metro.bean.MetroStation;
 import com.metro.bean.Transaction;
-import com.metro.model.persistence.TransactionDaoImplementation;
+import com.metro.model.persistence.TransactionDao;
 
 @Service
 public class TransactionServiceImplementation implements TransactionService {
 	@Autowired
-	TransactionDaoImplementation transactionDaoImplementation;
+	TransactionDao transactionDao;
 
 	@Override
-	public boolean addTransaction(int cardId, MetroStation source) {
-		Transaction transaction = new Transaction();
-		transaction.setCardId(cardId);
-		transaction.setSourceId(source.getId());
+	public boolean addTransaction(int cardId, MetroStation sourceMetroStation) {
+		int rows = transactionDao.addTransaction(cardId, sourceMetroStation.getId());
 		
-		return transactionDaoImplementation.addTransaction(transaction);
+		return (rows > 0);
 	}
 
 	@Override
 	public boolean updateTransaction(int transactionId, int destinationMetroStationId, double fare) {
-		Transaction transaction = transactionDaoImplementation.getTransactionBytransactionID(transactionId);
-		transaction.setDestinationId(destinationMetroStationId);
-		transaction.setFare(fare);
-		
-		return transactionDaoImplementation.updateTransaction(transaction);
+		int rows = transactionDao.updateTransaction(transactionId, destinationMetroStationId, fare);
+
+		return (rows > 0);
 	}
 	
 	@Override
 	public Transaction getLastTransaction(int cardId) {
-		return transactionDaoImplementation.getLastTransaction(cardId);
+		return transactionDao.getLastTransaction(cardId);
 	}
 }

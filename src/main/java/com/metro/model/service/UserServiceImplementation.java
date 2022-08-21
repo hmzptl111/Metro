@@ -4,17 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metro.bean.User;
-import com.metro.model.persistence.UserDaoImplementation;
+import com.metro.model.persistence.UserDao;
 
 @Service
 public class UserServiceImplementation implements UserService {
 	@Autowired
-	private UserDaoImplementation userDaoImplementation;
+	private UserDao userDao;
 
 	@Override
-	public boolean addUser(String name, String email, long contact) {
-		if(!userDaoImplementation.userEmailAlreadyInUse(email)) {
-			return userDaoImplementation.addUser(name, email, contact);
+	public boolean addUser(String email, String name, long contact) {
+		User user = userDao.findByEmail(email);
+		if(user == null) {
+			int rows = userDao.addUser(email, name, contact);
+			return (rows > 0);
 		}
 		
 		return false;
@@ -22,11 +24,6 @@ public class UserServiceImplementation implements UserService {
 
 	@Override
 	public User getUserByEmail(String email) {
-		return userDaoImplementation.getUserByEmail(email);
-	}
-
-	@Override
-	public boolean userEmailAlreadyInUse(String email) {
-		return userDaoImplementation.userEmailAlreadyInUse(email);
+		return userDao.findByEmail(email);
 	}
 }

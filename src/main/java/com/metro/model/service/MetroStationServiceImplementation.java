@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.metro.bean.MetroStation;
-import com.metro.model.persistence.MetroStationDaoImplementation;
+import com.metro.model.persistence.MetroStationDao;
 
 @Service
 public class MetroStationServiceImplementation implements MetroStationService {
 	@Autowired
-	private MetroStationDaoImplementation metroDaoImplementation;
+	private MetroStationDao metroStationDao;
 	
 	@Override
 	public double calculateFare(MetroStation source, MetroStation destination) {
@@ -23,11 +23,11 @@ public class MetroStationServiceImplementation implements MetroStationService {
 	
 	@Override
 	public MetroStation getMetroStation(int metroStationId) {
-		return metroDaoImplementation.getMetroStation(metroStationId);
+		return metroStationDao.findById(metroStationId);
 	}
 
 	@Override
 	public List<MetroStation> fetchMetroStations() {
-		return metroDaoImplementation.fetchMetroStations();
+		return metroStationDao.findAllByOrderByIdAsc();
 	}
 }

@@ -26,7 +26,6 @@ import com.metro.model.service.UserService;
 
 @Controller
 public class MetroController {
-	
 	@Autowired
 	SignInService signInService;
 	
@@ -119,10 +118,16 @@ public class MetroController {
 	public ModelAndView checkBalance(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		Card card = (Card)session.getAttribute("card");
-		double balance = cardService.checkBalance(card.getId());
 		
-		modelAndView.addObject("balance", balance);
-		modelAndView.setViewName("balance");
+		if(card == null) {
+			modelAndView.addObject("message", "Couldn't process card");
+			modelAndView.setViewName("message");
+		} else {
+			double balance = cardService.checkBalance(card.getId());
+			
+			modelAndView.addObject("balance", balance);
+			modelAndView.setViewName("balance");
+		}
 		
 		return modelAndView;
 	}
@@ -279,8 +284,8 @@ public class MetroController {
 	public ModelAndView newCardPOST(@RequestParam("email") String email, @RequestParam("name") String name, @RequestParam("contact") long contact, @RequestParam("password") String password, @RequestParam("balance") double balance) {
 		ModelAndView modelAndView = new ModelAndView();
 		
-		if(!userService.userEmailAlreadyInUse(email)) {
-			if(userService.addUser(name, email, contact)) {
+		if(userService.getUserByEmail(email) == null) {
+			if(userService.addUser(email, name, contact)) {
 				if(cardService.generateCard(email, password, balance)) {
 					modelAndView.addObject("message", "Card generated");
 				} else {
