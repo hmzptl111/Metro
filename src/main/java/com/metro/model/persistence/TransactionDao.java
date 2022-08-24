@@ -1,5 +1,7 @@
 package com.metro.model.persistence;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +28,8 @@ public interface TransactionDao extends JpaRepository<Transaction, Integer> {
 	
 	@Query(value = "select * from transaction where card_id = :cardId order by id desc limit 1", nativeQuery = true)
 	Transaction getLastTransaction(@Param("cardId") int cardId);
+	
+	@Query(value = "select * from transaction where card_id = :cardId", nativeQuery = true)
+	List<Transaction> getTransactionHistory(@Param("cardId") int cardId);
+//	Transactions findByCardId(int cardId);
 }
