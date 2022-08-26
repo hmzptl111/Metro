@@ -112,5 +112,14 @@ a {
 #t-table{
 	padding:5px;
 	border: 1px black solid;
+	width: 150px;
 	
+}
+
+thead, tbody { display: block; }
+
+tbody {
+    max-height: 300px;     
+    overflow-y: auto;   
+    overflow-x: hidden; 
 }

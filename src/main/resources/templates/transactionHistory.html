@@ -9,16 +9,17 @@
 <div class="bg-img">
 <div id="container">
 <h1>Travel History</h1>
-<table style = "overflow-y: auto "  >
-<tbody>
+<table >
+<thead>
 	<tr>
-		<th  id="t-table">Transaction ID</th>
+		<th  id="t-table">ID</th>
 		<th  id="t-table">Source</th>
 		<th  id="t-table">Destination</th>
 		<th  id="t-table">Swipe-in Time</th>
 		<th  id="t-table">Swipe-out Time</th>
 		<th  id="t-table">Fare</th>
 	</tr>
+</thead>
 	<tr th:each = "transaction: ${transactions}">
 		<td th:text = "${transaction.id}"  id="t-table"></td>
 		<td th:text = "${transaction.sourceMetroStation}"  id="t-table"></td>
@@ -27,7 +28,6 @@
 		<td th:text = "${transaction.swipeOutTime}"  id="t-table"></td>
 		<td th:text = "${transaction.fare}"  id="t-table"></td>
 	</tr>
-	</tbody>
 </table>
 </div>
 </div>
