@@ -6,18 +6,29 @@
 <link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Metro</h1>
-<p th:text = "${message}"></p>
 
-<div>
+
+<div class="bg-img">
+<div class="container">
+
+<h1>WELCOME</h1>
+
+<p th:text = "${message}"></p>
+<div class="a-tag">
 	<a href = "/swipeOut" th:if="${session.isSwipedIn}">Swipe out</a>
+	</div>
+	<div class="a-tag">
 	<a href = "/swipeIn" th:unless="${session.isSwipedIn}">Swipe in</a>
-</div>
-<a href = "/updateBalance">Update balance</a><br>
-<a href = "/checkBalance">Check balance</a><br>
-<a href = "/transactionHistory">Travel History</a>
-<form action="/signOut" method = "POST">
-	<input type = "submit" value = "Sign out">
+	</div>
+
+
+<div class="a-tag"><a href = "/updateBalance">Update balance</a><br></div>
+<div class="a-tag"><a href = "/checkBalance">Check balance</a><br></div>
+<div class="a-tag"><a href = "/transactionHistory">Travel History</a></div>
+<form action="/signOut" method = "POST" >
+	 <button type="submit" class="btn" value = "Sign out">Sign out</button>
 </form>
+</div>
+</div>
 </body>
 </html>

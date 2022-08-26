@@ -22,7 +22,7 @@ body, html {
 	top: 30%;
 	right: 0;
 	margin: 20px;
-	max-width: 300px;
+	max-width: 500px;
 	padding: 16px;
 	background: rgba(255, 255, 255, 0.733);;
 }
@@ -67,7 +67,7 @@ h1 {
 
 .a-tag {
 	padding: 10px;
-
+	
 	text-align: center;
 	
 	font-style: italic;
