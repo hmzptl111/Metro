@@ -3,26 +3,33 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Metro - Transaction History</title>
+<link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
+<div class="bg-img">
+<div id="container">
 <h1>Travel History</h1>
-<table style = "border: 1px black solid">
+<table style = "overflow-y: auto "  >
+<tbody>
 	<tr>
-		<th style = "border: 1px black solid">Transaction ID</th>
-		<th style = "border: 1px black solid">Source</th>
-		<th style = "border: 1px black solid">Destination</th>
-		<th style = "border: 1px black solid">Swipe-in Time</th>
-		<th style = "border: 1px black solid">Swipe-out Time</th>
-		<th style = "border: 1px black solid">Fare</th>
+		<th  id="t-table">Transaction ID</th>
+		<th  id="t-table">Source</th>
+		<th  id="t-table">Destination</th>
+		<th  id="t-table">Swipe-in Time</th>
+		<th  id="t-table">Swipe-out Time</th>
+		<th  id="t-table">Fare</th>
 	</tr>
 	<tr th:each = "transaction: ${transactions}">
-		<td th:text = "${transaction.id}" style = "border: 1px black solid"></td>
-		<td th:text = "${transaction.sourceMetroStation}" style = "border: 1px black solid"></td>
-		<td th:text = "${transaction.destinationMetroStation}" style = "border: 1px black solid"></td>
-		<td th:text = "${transaction.swipeInTime}" style = "border: 1px black solid"></td>
-		<td th:text = "${transaction.swipeOutTime}" style = "border: 1px black solid"></td>
-		<td th:text = "${transaction.fare}" style = "border: 1px black solid"></td>
+		<td th:text = "${transaction.id}"  id="t-table"></td>
+		<td th:text = "${transaction.sourceMetroStation}"  id="t-table"></td>
+		<td th:text = "${transaction.destinationMetroStation}" id="t-table"></td>
+		<td th:text = "${transaction.swipeInTime}" id="t-table"></td>
+		<td th:text = "${transaction.swipeOutTime}"  id="t-table"></td>
+		<td th:text = "${transaction.fare}"  id="t-table"></td>
 	</tr>
+	</tbody>
 </table>
+</div>
+</div>
 </body>
 </html>

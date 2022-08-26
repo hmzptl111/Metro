@@ -1,20 +1,38 @@
 <!DOCTYPE html>
-<html xmlns:th = "https://thymeleaf.org">
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Metro - Generate new card</title>
+<link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
-	<h1>Metro</h1>
-	<form action="/newCard" method = "POST">
-		<input type = "email" placeholder = "email" name = "email"><br>
-		<input type = "text" placeholder = "name" name = "name"><br>
-		<input type = "number" placeholder = "9876-543-210" name = "contact"><br>
-		<input type = "password" placeholder = "card password" name = "password"><br>
-		<input type = "number" placeholder = "100" name = "balance"><br>
+	<body>
+	<div class="bg-img">
+	<form action="/newCard" method="POST" class="container">
+		<h1>Generate New Card</h1>
+		<label for="email"><b>EMAIL</b></label> 
+		<input type="email"	placeholder="Enter Email" name="email" required> 
 		
-		<input type = "submit" value = "Generate">
-		<a href = "/signIn">Sign in</a>
+		<label for="text"><b>NAME</b></label> 
+		<input type="text" placeholder="Name" name="name" required>
+		
+		<label for="number"><b>CONTACT</b></label>
+		<input type="number" placeholder="9876-543-210" name="contact" required>
+		 
+		<label for="password"><b>PASSWORD</b></label>
+		<input type="password" placeholder="Enter Password" name="password" required>
+		
+		<label for="number"><b>BALANCE</b></label>
+		<input type="number" placeholder="100" name="balance" required>
+
+		<button type="submit" class="btn" value="Generate">Generate</button>
+		<div class="a-tag">
+			<a href="/signIn">Sign in</a>
+		</div>
+		
 	</form>
+	</div>
 </body>
+
+
 </html>

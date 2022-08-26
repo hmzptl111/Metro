@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th = "https://thymeleaf.org">
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Metro - Card balance</title>
+<link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Metro</h1>
-<p th:text = "'Card balance: ' + ${balance}"></p>
-<a href = "/">Menu</a>
+	<div class="bg-img">
+		<div class="container">
+			<h1 th:text="'Card balance: ' + ${balance}"></h1>
+			<div class="a-tag">
+				<a href="/">Menu</a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

@@ -3,14 +3,23 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Metro - Update balance</title>
+<link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Metro</h1>
-<p th:text = "${message}"></p>
-<form action = "/updateBalance" method = "POST">
-	<input type = "number" placeholder = "add amount" name = "amount">
-	<input type = "submit" value = "Add amount">
-</form>
-<a href = "/">Menu</a>
+	<div class="bg-img">
+		<form action="/updateBalance" method="POST" class="container">
+			<h1>Update your Balance</h1>
+			<p th:text="${message}"></p>
+
+			<label for="amount"><b>AMOUNT</b></label> <input type="number"
+				placeholder="Add amount" name="amount" required>
+
+			<button type="submit" class="btn" value="Add amount">Add
+				amount</button>
+			<div class="a-tag">
+				<a href="/">Menu</a>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
