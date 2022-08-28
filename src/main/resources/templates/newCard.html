@@ -10,6 +10,9 @@
 	<div class="bg-img">
 	<form action="/newCard" method="POST" class="container">
 		<h1>Generate New Card</h1>
+		
+		<p th:text="${message}"></p>
+		
 		<label for="email"><b>EMAIL</b></label> 
 		<input type="email"	placeholder="Enter Email" name="email" required> 
 		

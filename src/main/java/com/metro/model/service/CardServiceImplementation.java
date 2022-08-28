@@ -30,12 +30,12 @@ public class CardServiceImplementation implements CardService {
 	}
 
 	@Override
-	public boolean generateCard(String email, String password, double balance) {
+	public boolean generateCard(String email, String password, String name, long contact, double balance) {
 		if(balance < 100) return false;
 		
-		User user = userDao.findByEmail(email);
-		if(user != null) {
-			int rows = cardDao.generateCard(user, password, balance);
+		User user = userDao.findByEmail(email);		
+		if(user == null && userDao.addUser(email, name, contact) > 0) {
+			int rows = cardDao.generateCard(email, password, balance);
 			return (rows > 0);
 		}
 		

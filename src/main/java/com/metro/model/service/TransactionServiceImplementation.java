@@ -49,7 +49,6 @@ public class TransactionServiceImplementation implements TransactionService {
 			MetroStation destinationMetroStation = metroStationDao.findById(transaction.getDestinationId()).orElse(new MetroStation());
 			
 			TransactionHistory th = new TransactionHistory(transaction.getId(), sourceMetroStation.getName(), destinationMetroStation.getName(), transaction.getSwipeInTime(), transaction.getSwipeOutTime(), transaction.getFare());
-			
 			transactionHistory.add(th);
 		}
 		

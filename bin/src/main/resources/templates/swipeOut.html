@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th = "https://thymeleaf.org">
+<html xmlns:th="https://thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Metro - Swipe out</title>
+<link th:href="@{/style/style.css}" rel="stylesheet">
 </head>
 <body>
-<h1>Metro</h1>
-<p>Destination metro station:</p>
-<form action = "/swipeOut" method = "POST">
-	<select name = "metroStation">
-		<option th:each = "metroStation: ${metroStations}" th:value = "${metroStation.name}" th:label = "${metroStation.name}"></option>
-	</select>
-	<input type = "submit" value = "Swipe out">
-</form>
-<a href = "/">Menu</a>
+	<div class="bg-img">
+
+		<form action="/swipeOut" method="POST" class="container">
+			<h1>Choose your Station</h1>
+			<p>Choose:</p>
+			<div class="select-option">
+				<select name="metroStation" class="options">
+					<option th:each="metroStation: ${metroStations}"
+						th:value="${metroStation.name}" th:label="${metroStation.name}"
+						class="options"></option>
+				</select>
+			</div>
+			<button type="submit" class="btn" value="Swipe out">Swipe Out</button>
+			<div class="a-tag">
+				<a href="/">Menu</a>
+			</div>
+		</form>
+	</div>
 </body>
 </html>
+

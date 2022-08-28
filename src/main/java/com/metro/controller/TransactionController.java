@@ -57,7 +57,7 @@ public class TransactionController extends MetroStationController {
 		List<MetroStation> metroStations = getMetroStations();
 		MetroStation sourceMetroStation = metroStations.stream().filter(ms -> ms.getName().equals(metroStation)).distinct().collect(Collectors.toList()).get(0);
 		boolean isTransactionAdded = transactionService.addTransaction(card.getId(), sourceMetroStation);
-
+		
 		String message = null;
 		if(isTransactionAdded) {
 			message = "Swiped in";
@@ -138,14 +138,18 @@ public class TransactionController extends MetroStationController {
 	@RequestMapping(value = "/transactionHistory", method = RequestMethod.GET)
 	public ModelAndView transactionHistoryGET(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
+		
 		Card card = (Card)session.getAttribute("card");
-		if(card != null) {
-			List<TransactionHistory> transactions = transactionService.getTransactionHistory(card.getId());
-			modelAndView.addObject("transactions", transactions);
-			modelAndView.setViewName("transactionHistory");
-		} else {
+		if(card == null) {
 			modelAndView.setViewName("redirect:/signIn");
+			
+			return modelAndView;
 		}
+		
+		List<TransactionHistory> transactions = transactionService.getTransactionHistory(card.getId());
+		
+		modelAndView.addObject("transactions", transactions);
+		modelAndView.setViewName("transactionHistory");
 		
 		return modelAndView;
 	}

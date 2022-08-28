@@ -29,7 +29,6 @@ public interface TransactionDao extends JpaRepository<Transaction, Integer> {
 	@Query(value = "select * from transaction where card_id = :cardId order by id desc limit 1", nativeQuery = true)
 	Transaction getLastTransaction(@Param("cardId") int cardId);
 	
-	@Query(value = "select * from transaction where card_id = :cardId", nativeQuery = true)
+	@Query(value = "select * from transaction where card_id = :cardId and (destination_metro_id is not null and swipe_out_time is not null and fare_calculated is not null)", nativeQuery = true)
 	List<Transaction> getTransactionHistory(@Param("cardId") int cardId);
-//	Transactions findByCardId(int cardId);
 }

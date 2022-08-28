@@ -38,20 +38,16 @@ public class CardController {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		if(userService.getUserByEmail(email) == null) {
-			if(userService.addUser(email, name, contact)) {
-				if(cardService.generateCard(email, password, balance)) {
-					modelAndView.addObject("message", "Card generated");
-				} else {
-					modelAndView.addObject("message", "Couldn't generate card, please read manual and input valid credentials");
-				}
+			if(cardService.generateCard(email, password, name, contact, balance)) {
+				modelAndView.addObject("message", "Card generated");
 			} else {
-				modelAndView.addObject("message", "User registration unsuccessful");
+				modelAndView.addObject("message", "Couldn't generate card");
 			}
 		} else {
 			modelAndView.addObject("message", "It seems like you already have a card");
 		}
 		
-		modelAndView.setViewName("message");
+		modelAndView.setViewName("newCard");
 		
 		return modelAndView;
 	}
@@ -97,6 +93,4 @@ public class CardController {
 		return modelAndView;
 	}
 //	======================UPDATE BALANCE======================
-	
-	
 }

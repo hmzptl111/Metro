@@ -8,8 +8,11 @@
 <body>
 <div class="bg-img">
 <div id="container">
+<div class="a-tag">
+	<a href="/">Menu</a>
+</div>
 <h1>Travel History</h1>
-<table >
+<table>
 <thead>
 	<tr>
 		<th  id="t-table">ID</th>
@@ -23,10 +26,10 @@
 	<tr th:each = "transaction: ${transactions}">
 		<td th:text = "${transaction.id}"  id="t-table"></td>
 		<td th:text = "${transaction.sourceMetroStation}"  id="t-table"></td>
-		<td th:text = "${transaction.destinationMetroStation}" id="t-table"></td>
+		<td th:text = "${transaction.destinationMetroStation}" id = "t-table"></td>
 		<td th:text = "${transaction.swipeInTime}" id="t-table"></td>
-		<td th:text = "${transaction.swipeOutTime}"  id="t-table"></td>
-		<td th:text = "${transaction.fare}"  id="t-table"></td>
+		<td th:text = "${transaction.swipeOutTime}" id="t-table"></td>
+		<td th:text = "${transaction.fare}" id="t-table"></td>
 	</tr>
 </table>
 </div>

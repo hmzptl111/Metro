@@ -13,11 +13,11 @@
 
 <h1>WELCOME</h1>
 
-<div class="a-tag">
-	<a href = "/swipeOut" th:if="${session.isSwipedIn}">Swipe out</a>
+	<div class="a-tag" th:if="${session.isSwipedIn}">
+		<a href = "/swipeOut">Swipe out</a>
 	</div>
-	<div class="a-tag">
-	<a href = "/swipeIn" th:unless="${session.isSwipedIn}">Swipe in</a>
+	<div class="a-tag" th:unless="${session.isSwipedIn}">
+		<a href = "/swipeIn">Swipe in</a>
 	</div>
 
 
